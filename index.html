@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edu-Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="card">
+    <h1 id="title">Login</h1>
+    <form id="auth-form">
+      <input type="text" id="full-name" placeholder="Full name" class="hidden">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" minlength="6" required>
+      <button type="submit" id="submit-btn">Login</button>
+    </form>
+    <p id="message"></p>
+    <p class="switch">
+      <span id="switch-text">No account?</span>
+      <a href="#" id="switch-link">Sign up</a>
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
