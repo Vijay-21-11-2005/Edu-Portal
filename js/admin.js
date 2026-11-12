@@ -58,3 +58,48 @@ document.getElementById("course-form").addEventListener("submit", async (e) => {
     e.target.reset();
     loadCourses();
 });
+
+async function loadEnrollments() {
+    const { data: students } = await db.from("profiles").select("id, full_name").eq("role", "student");
+    const { data: courses } = await db.from("courses").select("id, code, name");
+    const ssel = document.getElementById("enroll-student");
+    const csel = document.getElementById("enroll-course");
+    ssel.innerHTML = "";
+    csel.innerHTML = "";
+    students.forEach(s => {
+        const o = document.createElement("option");
+        o.value = s.id;
+        o.textContent = s.full_name;
+        ssel.appendChild(o);
+    });
+    courses.forEach(c => {
+        const o = document.createElement("option");
+        o.value = c.id;
+        o.textContent = c.code + " - " + c.name;
+        csel.appendChild(o);
+    });
+    const { data, error } = await db.from("enrollments").select("id, profiles(full_name), courses(code, name)");
+    const table = document.getElementById("enrollments");
+    if (error) { table.textContent = error.message; return; }
+    table.innerHTML = "<tr><th>Student</th><th>Course</th><th></th></tr>";
+    data.forEach(en => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td></td><td></td><td><button>Remove</button></td>";
+        tr.children[0].textContent = en.profiles.full_name;
+        tr.children[1].textContent = en.courses.code + " - " + en.courses.name;
+        tr.querySelector("button").addEventListener("click", async () => {
+            await db.from("enrollments").delete().eq("id", en.id);
+            loadEnrollments();
+        });
+        table.appendChild(tr);
+    });
+}
+
+document.getElementById("enroll-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const student_id = document.getElementById("enroll-student").value;
+    const course_id = document.getElementById("enroll-course").value;
+    const { error } = await db.from("enrollments").insert({ student_id, course_id });
+    if (error) { alert(error.message); return; }
+    loadEnrollments();
+});

@@ -20,12 +20,20 @@
             <button type="submit">Add course</button>
         </form>
         <table id="courses"></table>
+        <h2>Enrollments</h2>
+<form id="enroll-form">
+    <select id="enroll-student"></select>
+    <select id="enroll-course"></select>
+    <button type="submit">Enroll</button>
+</form>
+<table id="enrollments"></table>
+
         <button onclick="logout()">Logout</button>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/guard.js"></script>
     <script src="js/admin.js"></script>
-    <script>guard("admin").then(() => { loadUsers(); loadCourses(); });</script>
+<script>guard("admin").then(() => { loadUsers(); loadCourses(); loadEnrollments(); });</script>
 </body>
 </html>
