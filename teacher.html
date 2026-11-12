@@ -12,12 +12,19 @@
         <p id="welcome"></p>
         <h2>My Courses</h2>
         <table id="my-courses"></table>
+        <h2>AI Quiz Generator</h2>
+        <select id="quiz-course"></select>
+        <input id="quiz-topic" placeholder="Topic">
+        <input id="quiz-count" type="number" min="1" max="10" value="5">
+        <button id="gen-btn">Generate</button>
+        <div id="quiz-preview"></div>
+        <button id="save-btn" class="hidden">Save quiz</button>
         <button onclick="logout()">Logout</button>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/guard.js"></script>
     <script src="js/teacher.js"></script>
-    <script>guard("teacher").then(loadTeacherCourses);</script>
+    <script>guard("teacher").then(() => { loadTeacherCourses(); loadQuizCourses(); });</script>
 </body>
 </html>

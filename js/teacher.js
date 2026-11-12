@@ -13,3 +13,46 @@ async function loadTeacherCourses() {
         table.appendChild(tr);
     });
 }
+
+let generated = null;
+
+async function loadQuizCourses() {
+    const { data: { session } } = await db.auth.getSession();
+    const { data } = await db.from("courses").select("id, code, name").eq("teacher_id", session.user.id);
+    const sel = document.getElementById("quiz-course");
+    sel.innerHTML = "";
+    data.forEach(c => {
+        const o = document.createElement("option");
+        o.value = c.id;
+        o.textContent = c.code + " - " + c.name;
+        sel.appendChild(o);
+    });
+}
+
+document.getElementById("gen-btn").addEventListener("click", async () => {
+    const topic = document.getElementById("quiz-topic").value.trim();
+    const count = document.getElementById("quiz-count").value;
+    const box = document.getElementById("quiz-preview");
+    if (!topic) return;
+    box.textContent = "Generating...";
+    const { data, error } = await db.functions.invoke("generate-quiz", { body: { topic, count } });
+    if (error) { box.textContent = error.context ? await error.context.text() : error.message; return; }
+    if (data.error) { box.textContent = data.error; return; }
+    generated = data.questions;
+    box.innerHTML = "";
+    generated.forEach((q, i) => {
+        const p = document.createElement("p");
+        p.textContent = (i + 1) + ". " + q.question + " [" + q.options.join(" | ") + "] Answer: " + q.options[q.answer];
+        box.appendChild(p);
+    });
+    document.getElementById("save-btn").classList.remove("hidden");
+});
+
+document.getElementById("save-btn").addEventListener("click", async () => {
+    const { data: { session } } = await db.auth.getSession();
+    const course_id = document.getElementById("quiz-course").value;
+    const title = document.getElementById("quiz-topic").value.trim();
+    const { error } = await db.from("quizzes").insert({ course_id, created_by: session.user.id, title, questions: generated });
+    document.getElementById("quiz-preview").textContent = error ? error.message : "Quiz saved.";
+    document.getElementById("save-btn").classList.add("hidden");
+});

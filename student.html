@@ -12,12 +12,16 @@
         <p id="welcome"></p>
         <h2>My Courses</h2>
         <table id="my-courses"></table>
+        <h2>Quizzes</h2>
+        <div id="quiz-list"></div>
+        <div id="quiz-box"></div>
+
         <button onclick="logout()">Logout</button>  
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/guard.js"></script>
     <script src="js/student.js"></script>
-    <script>guard("student").then(loadMyCourses);</script>
+    <script>guard("student").then(() => { loadMyCourses(); loadQuizzes(); });</script>
 </body>
 </html>
