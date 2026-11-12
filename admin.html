@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | Edu-Portal</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin | Edu-Portal</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="hidden">
-  <main class="card">
-    <h1>Admin Dashboard</h1>
-    <p id="welcome"></p>
-    <button onclick="logout()">Logout</button>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-config.js"></script>
-  <script src="js/guard.js"></script>
-  <script>guard("admin");</script>
+    <main class="wide">
+        <h1>Admin Dashboard</h1>
+        <p id="welcome"></p>
+        <h2>Users</h2>
+        <table id="users"></table>
+        <h2>Courses</h2>
+        <form id="course-form">
+            <input id="course-code" placeholder="Course code" required>
+            <input id="course-name" placeholder="Course name" required>
+            <select id="course-teacher"></select>
+            <button type="submit">Add course</button>
+        </form>
+        <table id="courses"></table>
+        <button onclick="logout()">Logout</button>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/guard.js"></script>
+    <script src="js/admin.js"></script>
+    <script>guard("admin").then(() => { loadUsers(); loadCourses(); });</script>
 </body>
 </html>
