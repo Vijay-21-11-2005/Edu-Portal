@@ -58,14 +58,33 @@ function startQuiz(q) {
     submit.style.marginTop = "16px";
     const result = document.createElement("p");
     result.style.margin = "12px 0";
-    submit.addEventListener("click", () => {
+    submit.addEventListener("click", async () => {
         let score = 0;
         q.questions.forEach((item, i) => {
             const picked = box.querySelector("input[name=q" + i + "]:checked");
             if (picked && Number(picked.value) === item.answer) score++;
         });
-        result.textContent = "Score: " + score + " / " + q.questions.length;
+        submit.disabled = true;
+        const { data: { session } } = await db.auth.getSession();
+        const { error } = await db.from("quiz_results").insert({ quiz_id: q.id, student_id: session.user.id, score, total: q.questions.length });
+        result.textContent = error ? error.message : "Score: " + score + " / " + q.questions.length + " (saved)";
+        loadResults();
     });
     box.appendChild(submit);
     box.appendChild(result);
+}
+async function loadResults() {
+    const { data, error } = await db.from("quiz_results").select("score, total, created_at, quizzes(title)").order("created_at", { ascending: false });
+    const table = document.getElementById("my-results");
+    if (error) { table.textContent = error.message; return; }
+    if (data.length === 0) { table.textContent = "No attempts yet."; return; }
+    table.innerHTML = "<tr><th>Quiz</th><th>Score</th><th>Date</th></tr>";
+    data.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td></td><td></td><td></td>";
+        tr.children[0].textContent = r.quizzes.title;
+        tr.children[1].textContent = r.score + " / " + r.total;
+        tr.children[2].textContent = new Date(r.created_at).toLocaleDateString();
+        table.appendChild(tr);
+    });
 }
