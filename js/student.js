@@ -84,7 +84,7 @@ async function loadResults() {
         tr.innerHTML = "<td></td><td></td><td></td>";
         tr.children[0].textContent = r.quizzes.title;
         tr.children[1].textContent = r.score + " / " + r.total;
-        tr.children[2].textContent = new Date(r.created_at).toLocaleDateString();
+        tr.children[2].textContent = new Date(r.created_at).toLocaleDateString("en-GB").replaceAll("/", "-");
         table.appendChild(tr);
     });
 }

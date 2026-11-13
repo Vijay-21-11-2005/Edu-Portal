@@ -68,7 +68,7 @@ async function loadResults() {
         tr.children[0].textContent = r.profiles ? r.profiles.full_name : "Unknown";
         tr.children[1].textContent = r.quizzes.title;
         tr.children[2].textContent = r.score + " / " + r.total;
-        tr.children[3].textContent = new Date(r.created_at).toLocaleDateString();
+        tr.children[3].textContent = new Date(r.created_at).toLocaleDateString("en-GB").replaceAll("/", "-");
         table.appendChild(tr);
     });
 }
