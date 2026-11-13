@@ -56,3 +56,19 @@ document.getElementById("save-btn").addEventListener("click", async () => {
     document.getElementById("quiz-preview").textContent = error ? error.message : "Quiz saved.";
     document.getElementById("save-btn").classList.add("hidden");
 });
+async function loadResults() {
+    const { data, error } = await db.from("quiz_results").select("score, total, created_at, quizzes(title), profiles(full_name)").order("created_at", { ascending: false });
+    const table = document.getElementById("results");
+    if (error) { table.textContent = error.message; return; }
+    if (data.length === 0) { table.textContent = "No attempts yet."; return; }
+    table.innerHTML = "<tr><th>Student</th><th>Quiz</th><th>Score</th><th>Date</th></tr>";
+    data.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td></td><td></td><td></td><td></td>";
+        tr.children[0].textContent = r.profiles ? r.profiles.full_name : "Unknown";
+        tr.children[1].textContent = r.quizzes.title;
+        tr.children[2].textContent = r.score + " / " + r.total;
+        tr.children[3].textContent = new Date(r.created_at).toLocaleDateString();
+        table.appendChild(tr);
+    });
+}

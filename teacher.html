@@ -19,12 +19,14 @@
         <button id="gen-btn">Generate</button>
         <div id="quiz-preview"></div>
         <button id="save-btn" class="hidden">Save quiz</button>
+        <h2>Student Results</h2>
+        <table id="results"></table>
         <button onclick="logout()">Logout</button>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/guard.js"></script>
     <script src="js/teacher.js"></script>
-    <script>guard("teacher").then(() => { loadTeacherCourses(); loadQuizCourses(); });</script>
+    <script>guard("teacher").then(() => { loadTeacherCourses(); loadQuizCourses(); loadResults(); });</script>
 </body>
 </html>
