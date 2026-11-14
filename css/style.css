@@ -1,24 +1,27 @@
+:root { --bg: #fff; --fg: #000; --border: #ddd; --muted: #666; --hover: #333; }
+[data-theme="dark"] { --bg: #000; --fg: #fff; --border: #333; --muted: #aaa; --hover: #ddd; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 16px; }
-.card { width: 100%; max-width: 360px; padding: 32px; border: 1px solid #333; border-radius: 12px; }
-.wide { width: 100%; max-width: 720px; padding: 32px; border: 1px solid #333; border-radius: 12px; }
+body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--fg); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 16px; }
+.card { width: 100%; max-width: 360px; padding: 32px; border: 1px solid var(--border); border-radius: 12px; }
+.wide { width: 100%; max-width: 720px; padding: 32px; border: 1px solid var(--border); border-radius: 12px; }
 h1 { font-size: 24px; margin-bottom: 24px; }
 h2 { font-size: 16px; margin: 16px 0 8px; }
-input { width: 100%; padding: 12px; margin-bottom: 12px; background: #000; color: #fff; border: 1px solid #333; border-radius: 8px; font-size: 14px; }
-input:focus { outline: none; border-color: #fff; }
-select { width: 100%; padding: 12px; margin-bottom: 12px; background: #000; color: #fff; border: 1px solid #333; border-radius: 8px; font-size: 14px; }
-button { width: 100%; padding: 12px; background: #fff; color: #000; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
-button:hover { background: #ddd; }
+input { width: 100%; padding: 12px; margin-bottom: 12px; background: var(--bg); color: var(--fg); border: 1px solid var(--border); border-radius: 8px; font-size: 14px; }
+input:focus { outline: none; border-color: var(--fg); }
+select { width: 100%; padding: 12px; margin-bottom: 12px; background: var(--bg); color: var(--fg); border: 1px solid var(--border); border-radius: 8px; font-size: 14px; }
+button { width: 100%; padding: 12px; background: var(--fg); color: var(--bg); border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+button:hover { background: var(--hover); }
 table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 14px; }
-th, td { text-align: left; padding: 10px; border-bottom: 1px solid #333; }
+th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--border); }
 td select { width: auto; margin-bottom: 0; padding: 6px; border-radius: 6px; }
 td button { width: auto; padding: 6px 12px; }
-#message { margin-top: 16px; font-size: 13px; color: #aaa; min-height: 18px; }
-#welcome { margin-bottom: 16px; color: #aaa; }
-.switch { margin-top: 12px; font-size: 13px; color: #aaa; }
-.switch a { color: #fff; }
-.hidden { display: none; }
-
-#quiz-preview { margin: 12px 0; font-size: 13px; color: #aaa; }
+#message { margin-top: 16px; font-size: 13px; color: var(--muted); min-height: 18px; }
+#welcome { margin-bottom: 16px; color: var(--muted); }
+#quiz-preview { margin: 12px 0; font-size: 13px; color: var(--muted); }
 #quiz-preview p { margin-bottom: 8px; }
 #save-btn { margin-bottom: 16px; }
+.switch { margin-top: 12px; font-size: 13px; color: var(--muted); }
+.switch a { color: var(--fg); }
+.hidden { display: none; }
+#theme-toggle { position: fixed; top: 16px; right: 16px; width: auto; padding: 8px 14px; background: transparent; color: var(--fg); border: 1px solid var(--border); font-weight: 500; }
+#theme-toggle:hover { background: transparent; border-color: var(--fg); }
